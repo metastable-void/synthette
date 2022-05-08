@@ -108,6 +108,8 @@
                             previousValue = -1;
                             this.dispatchEvent(new Event('deactivate'));
                         }
+                        ev.preventDefault();
+                        ev.stopImmediatePropagation();
                     };
 
                     main.addEventListener('pointerdown', (ev) =>
