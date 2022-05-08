@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Synthette</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+        <style>
+            :root {
+                display: grid;
+                min-block-size: 100%;
+                min-inline-size: 100%;
+            }
+
+            body {
+                display: grid;
+                margin: 0;
+            }
+
+            #keyboards {
+
+            }
+
+            synthette-keyboard {
+                
+            }
+        </style>
+        <template id="synthette-keyboard">
+            <style>
+                @namespace url(http://www.w3.org/1999/xhtml);
+                @namespace svg url(http://www.w3.org/2000/svg);
+
+                :host {
+                    display: grid;
+                }
+
+                #main {
+                    flex-grow: 1;
+                    flex-shrink: 1;
+                    overflow: hidden;
+                }
+
+                svg|*#grid > svg|rect {
+                    fill: #ccc;
+                }
+
+                svg|*#grid > svg|rect.base {
+                    fill: #333;
+                }
+            </style>
+            <div id="main">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                    <g id="grid"></g>
+                </svg>
+            </div>
+        </template>
+    </head>
+    <body>
+        <synthette-keyboard id="keyboard"></synthette-keyboard>
+        <script type="module">
+            customElements.define('synthette-keyboard', class SynthetteKeyboard extends HTMLElement {
+                constructor() {
+                    //
+                    super();
+                    let pointerActive = false;
+                    let previousValue = -1;
+
+                    this.value = 0;
+
+                    const template = document.getElementById('synthette-keyboard');
+                    const shadowRoot = this.attachShadow({mode: 'open'});
+                    shadowRoot.append(template.content.cloneNode(true));
+                    const main = shadowRoot.getElementById('main');
+                    const left = shadowRoot.getElementById('left');
+                    const right = shadowRoot.getElementById('right');
+
+                    const grid = shadowRoot.getElementById('grid');
+                    const gridRepeatX = 3;
+                    const gridCountX = 12 * gridRepeatX;
+                    const gridRepeatY = 8;
+                    for (let i = 1; i < gridCountX; i++) {
+                        const line = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                        line.setAttribute('width', '1px');
+                        line.setAttribute('height', '100%');
+                        line.setAttribute('x', `${100 * i / gridCountX}%`);
+                        line.setAttribute('y', '0');
+                        if (0 == (i % 12)) {
+                            line.classList.add('base');
+                        }
+                        grid.appendChild(line);
+                    }
+
+                    for (let i = 1; i < gridRepeatY; i++) {
+                        const line = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                        line.setAttribute('width', '100%');
+                        line.setAttribute('height', '1px');
+                        line.setAttribute('x', '0');
+                        line.setAttribute('y', `${100 * i / gridRepeatY}%`);
+                        grid.appendChild(line);
+                    }
+
+                    const pointerHandler = (ev, valueX, valueY) => {
+                        if (ev.buttons && ev.type != 'pointerleave'
+                            && valueX >= 0 && valueX <= 1 && valueY >= 0 && valueY <= 1) {
+                            this.valueX = valueX * gridRepeatX;
+                            this.valueY = gridRepeatY - Math.floor(valueY * gridRepeatY) - 1;
+                            if (!pointerActive) {
+                                pointerActive = true;
+                                this.dispatchEvent(new Event('activate'));
+                            }
+                            if (previousValue != valueX) {
+                                previousValue = valueX;
+                                this.dispatchEvent(new Event('valueChange'));
+                            }
+                        } else if (pointerActive) {
+                            pointerActive = false;
+                            previousValue = -1;
+                            this.dispatchEvent(new Event('deactivate'));
+                        }
+                    };
+
+                    main.addEventListener('pointerdown', (ev) =>
+                        pointerHandler(ev, ev.offsetX / main.clientWidth, ev.offsetY / main.clientHeight));
+                    main.addEventListener('pointermove', (ev) =>
+                        pointerHandler(ev, ev.offsetX / main.clientWidth, ev.offsetY / main.clientHeight));
+                    main.addEventListener('pointerup', (ev) =>
+                        pointerHandler(ev, ev.offsetX / main.clientWidth, ev.offsetY / main.clientHeight));
+                    main.addEventListener('pointerenter', (ev) =>
+                        pointerHandler(ev, ev.offsetX / main.clientWidth, ev.offsetY / main.clientHeight));
+                    main.addEventListener('pointerleave', (ev) =>
+                        pointerHandler(ev, ev.offsetX / main.clientWidth, ev.offsetY / main.clientHeight));
+                    
+                }
+            });
+
+            const ctx = new (window.AudioContext || window.webkitAudioContext);
+            const gainNode = ctx.createGain();
+            const oscillatorNode = ctx.createOscillator();
+            gainNode.connect(ctx.destination);
+            oscillatorNode.connect(gainNode);
+            oscillatorNode.frequency.setValueAtTime(440, ctx.currentTime);
+
+            let oscillatorStarted = false;
+
+            const keyboard = document.querySelector('#keyboard');
+            keyboard.addEventListener('activate', (ev) => {
+                console.log('activate');
+                if (!oscillatorStarted) {
+                    oscillatorNode.start();
+                    oscillatorStarted = true;
+                }
+                gainNode.gain.linearRampToValueAtTime(1, ctx.currentTime + 0.1);
+            });
+            keyboard.addEventListener('valueChange', (ev) => {
+                console.log('valueChange: (%f, %d)', keyboard.valueX, keyboard.valueY);
+                oscillatorNode.frequency.linearRampToValueAtTime(27.5 * 2 ** (keyboard.valueX + keyboard.valueY), ctx.currentTime + 0.1);
+            });
+            keyboard.addEventListener('deactivate', (ev) => {
+                console.log('deactivate');
+                gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
+            });
+        </script>
+    </body>
+</html>
