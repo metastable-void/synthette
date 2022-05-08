@@ -125,7 +125,7 @@
                     main.addEventListener('pointerleave', (ev) =>
                         pointerHandler(ev, ev.offsetX / main.clientWidth, ev.offsetY / main.clientHeight));
                     
-                    main.addEventListener('scroll', (ev) => {
+                    main.addEventListener('touchmove', (ev) => {
                         ev.preventDefault();
                         ev.stopImmediatePropagation();
                     });
