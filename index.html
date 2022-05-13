@@ -56,6 +56,7 @@
                     //
                     super();
                     let pointerActive = false;
+                    const pointers = new Map;
                     let previousValue = -1;
 
                     this.value = 0;
@@ -93,12 +94,19 @@
                     }
 
                     const pointerHandler = (ev, aValueX, aValueY, pointerId) => {
+                        if (!pointers.has(pointerId)) {
+                            pointers.set(pointerId, {
+                                active: false,
+                                previousValue: -1,
+                            });
+                        }
+                        const pointer = pointers.get(pointerId);
                         if (ev.buttons && ev.type != 'pointerleave'
                             && aValueX >= 0 && aValueX <= 1 && aValueY >= 0 && aValueY <= 1) {
                             const valueX = aValueX * gridRepeatX;
                             const valueY = gridRepeatY - Math.floor(aValueY * gridRepeatY) - 1;
-                            if (!pointerActive) {
-                                pointerActive = true;
+                            if (!pointer.active) {
+                                pointer.active = true;
                                 this.dispatchEvent(new CustomEvent('activate', {
                                     detail: {
                                         pointerId,
@@ -107,8 +115,8 @@
                                     },
                                 }));
                             }
-                            if (previousValue != aValueX) {
-                                previousValue = aValueX;
+                            if (pointer.previousValue != aValueX) {
+                                pointer.previousValue = aValueX;
                                 this.dispatchEvent(new CustomEvent('valueChange', {
                                     detail: {
                                         pointerId,
@@ -117,11 +125,11 @@
                                     },
                                 }));
                             }
-                        } else if (pointerActive) {
+                        } else if (pointer.active) {
                             const valueX = aValueX * gridRepeatX;
                             const valueY = gridRepeatY - Math.floor(aValueY * gridRepeatY) - 1;
-                            pointerActive = false;
-                            previousValue = -1;
+                            pointer.active = false;
+                            pointer.previousValue = -1;
                             this.dispatchEvent(new CustomEvent('deactivate', {
                                 detail: {
                                     pointerId,
@@ -153,14 +161,7 @@
             });
 
             const ctx = new (window.AudioContext || window.webkitAudioContext);
-            const gainNode = ctx.createGain();
             const oscillators = new Map;
-            const oscillatorNode = ctx.createOscillator();
-            gainNode.connect(ctx.destination);
-            oscillatorNode.connect(gainNode);
-            oscillatorNode.frequency.setValueAtTime(440, ctx.currentTime);
-
-            let oscillatorStarted = false;
 
             const keyboard = document.querySelector('#keyboard');
             keyboard.addEventListener('activate', (ev) => {
@@ -174,6 +175,7 @@
                         gainNode,
                     });
                     oscillatorNode.connect(gainNode);
+                    oscillatorNode.frequency.setValueAtTime(440, ctx.currentTime);
                     gainNode.connect(ctx.destination);
                     gainNode.gain.setValueAtTime(0, ctx.currentTime);
                     oscillatorNode.start();
