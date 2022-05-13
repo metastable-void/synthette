@@ -163,14 +163,12 @@
             const ctx = new (window.AudioContext || window.webkitAudioContext);
             const oscillators = new Map;
 
-            const keyboard = document.querySelector('#keyboard');
-            keyboard.addEventListener('activate', (ev) => {
-                console.log('activate');
-                if (!oscillators.has(ev.detail.pointerId)) {
-                    console.log('New oscillator: %d', ev.pointerId);
+            const getOscillator = (pointerId) => {
+                if (!oscillators.has(pointerId)) {
+                    console.log('New oscillator: %d', pointerId);
                     const oscillatorNode = ctx.createOscillator();
                     const gainNode = ctx.createGain();
-                    oscillators.set(ev.detail.pointerId, {
+                    oscillators.set(pointerId, {
                         oscillatorNode,
                         gainNode,
                     });
@@ -180,17 +178,23 @@
                     gainNode.gain.setValueAtTime(0, ctx.currentTime);
                     oscillatorNode.start();
                 }
-                const {gainNode, oscillatorNode} = oscillators.get(ev.detail.pointerId);
+                return oscillators.get(pointerId);
+            };
+
+            const keyboard = document.querySelector('#keyboard');
+            keyboard.addEventListener('activate', (ev) => {
+                console.log('activate');
+                const {gainNode, oscillatorNode} = getOscillator(ev.detail.pointerId);
                 gainNode.gain.linearRampToValueAtTime(1, ctx.currentTime + 0.1);
             });
             keyboard.addEventListener('valueChange', (ev) => {
-                const {gainNode, oscillatorNode} = oscillators.get(ev.detail.pointerId);
+                const {gainNode, oscillatorNode} = getOscillator(ev.detail.pointerId);
                 console.log('valueChange: (%f, %d)', ev.detail.valueX, ev.detail.valueY);
                 oscillatorNode.frequency.linearRampToValueAtTime(27.5 * 2 ** (ev.detail.valueX + ev.detail.valueY), ctx.currentTime + 0.1);
             });
             keyboard.addEventListener('deactivate', (ev) => {
                 console.log('deactivate');
-                const {gainNode, oscillatorNode} = oscillators.get(ev.detail.pointerId);
+                const {gainNode, oscillatorNode} = getOscillator(ev.detail.pointerId);
                 gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
             });
         </script>
