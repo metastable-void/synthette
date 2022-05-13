@@ -181,8 +181,13 @@
                 return oscillators.get(pointerId);
             };
 
+            const destroyOscillator = (pointerId) => {
+                oscillators.delete(pointerId);
+            };
+
             const keyboard = document.querySelector('#keyboard');
             keyboard.addEventListener('activate', (ev) => {
+                ctx.resume();
                 console.log('activate: %d', ev.detail.pointerId);
                 const {gainNode, oscillatorNode} = getOscillator(ev.detail.pointerId);
                 gainNode.gain.linearRampToValueAtTime(1, ctx.currentTime + 0.1);
@@ -196,6 +201,12 @@
                 console.log('deactivate: %d', ev.detail.pointerId);
                 const {gainNode, oscillatorNode} = getOscillator(ev.detail.pointerId);
                 gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
+                destroyOscillator(ev.detail.pointerId);
+                setTimeout(() => {
+                    oscillatorNode.disconnect(gainNode);
+                    gainNode.disconnect(ctx.destination);
+                    oscillatorNode.stop();
+                }, 200);
             });
         </script>
     </body>
