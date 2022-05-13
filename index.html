@@ -183,17 +183,17 @@
 
             const keyboard = document.querySelector('#keyboard');
             keyboard.addEventListener('activate', (ev) => {
-                console.log('activate');
+                console.log('activate: %d', ev.detail.pointerId);
                 const {gainNode, oscillatorNode} = getOscillator(ev.detail.pointerId);
                 gainNode.gain.linearRampToValueAtTime(1, ctx.currentTime + 0.1);
             });
             keyboard.addEventListener('valueChange', (ev) => {
                 const {gainNode, oscillatorNode} = getOscillator(ev.detail.pointerId);
-                console.log('valueChange: (%f, %d)', ev.detail.valueX, ev.detail.valueY);
+                //console.log('valueChange: (%f, %d)', ev.detail.valueX, ev.detail.valueY);
                 oscillatorNode.frequency.linearRampToValueAtTime(27.5 * 2 ** (ev.detail.valueX + ev.detail.valueY), ctx.currentTime + 0.1);
             });
             keyboard.addEventListener('deactivate', (ev) => {
-                console.log('deactivate');
+                console.log('deactivate: %d', ev.detail.pointerId);
                 const {gainNode, oscillatorNode} = getOscillator(ev.detail.pointerId);
                 gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
             });
