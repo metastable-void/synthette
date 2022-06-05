@@ -67,6 +67,10 @@ export class MenheraWindow extends HTMLElement {
           box-shadow: 0 0 .5rem var(--theme-shadow-color);
           overflow: hidden;
           opacity: 1;
+          position: relative;
+          display: grid;
+          grid-template-columns: [content-start] 1fr [content-end];
+          grid-template-rows: [header-start] max-content [header-end content-start] 1fr [end];
         }
         
         #main {
@@ -133,11 +137,19 @@ export class MenheraWindow extends HTMLElement {
           top: 0;
           left: 0;
           right: 0;
+          grid-column: content-start / content-end;
+          grid-row: header-start / header-end;
           inline-size: 100%;
           display: grid;
           grid-template-columns: max-content 1fr;
           background-color: var(--theme-accent-color);
           color: var(--theme-highlighted-text-color);
+        }
+
+        #drawer-content {
+          grid-column: content-start / content-end;
+          grid-row: content-start / content-end;
+          overflow: auto;
         }
 
         #inactive-content {
