@@ -108,7 +108,7 @@ export class MenheraWindow extends HTMLElement {
         }
       </style>
       <div id='wrapper' class='drawer-collapsed'>
-        <did id='main'>
+        <div id='main'>
           <div id='header'>
             <button id='drawer-open-button'></button>
             <div id='header-content' slot='header-content'></div>
@@ -128,7 +128,7 @@ export class MenheraWindow extends HTMLElement {
     `;
 
     const wrapper = shadowRoot.querySelector('#wrapper');
-    wrapper.style.setProperty('')
+    //wrapper.style.setProperty('');
   }
 
   openDrawer() {
