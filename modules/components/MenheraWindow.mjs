@@ -58,6 +58,11 @@ export class MenheraWindow extends HTMLElement {
           overflow: hidden;
           opacity: 1;
         }
+        
+        #main {
+          grid-column: content-start / content-end;
+          grid-row: content-start / content-end;
+        }
 
         #drawer-backdrop {
           grid-row: 1 / -1;
@@ -105,6 +110,10 @@ export class MenheraWindow extends HTMLElement {
           grid-template-columns: max-content 1fr;
           background-color: var(--theme-accent-color);
           color: var(--theme-highlighted-text-color);
+        }
+
+        #inactive-content {
+          display: none;
         }
       </style>
       <div id='wrapper' class='drawer-collapsed'>
