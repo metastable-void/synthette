@@ -64,10 +64,12 @@ export class MenheraWindow extends HTMLElement {
           grid-row: content-start / content-end;
           display: grid;
           grid-template-rows: [header-start] max-content [header-end content-start] 1fr [content-end];
+          grid-template-columns: [content-start] 1fr [content-end];
         }
 
         #header {
           grid-row: header-start / header-end;
+          grid-column: content-start / content-end;
         }
 
         #content {
