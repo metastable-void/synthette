@@ -66,6 +66,14 @@
         <menhera-window>
             <h2 id="heading" slot="header-content">Synthette</h2>
             <synthette-keyboard slot="content" id="keyboard"></synthette-keyboard>
+            <div slot="drawer-content">
+                <select id="waveform">
+                    <option value="sine">Sine</option>
+                    <option value="square">Square</option>
+                    <option value="sawtooth">Sawtooth</option>
+                    <option value="triangle">Triangle</option>
+                </select>
+            </div>
         </menhera-window>
         <script type="module">
             import {MenheraWindow} from './modules/components/MenheraWindow.mjs';
@@ -179,6 +187,8 @@
                 }
             });
 
+            const waveformSelect = document.querySelector('#waveform');
+
             const ctx = new (window.AudioContext || window.webkitAudioContext);
             const oscillators = new Map;
 
@@ -193,12 +203,19 @@
                     });
                     oscillatorNode.connect(gainNode);
                     oscillatorNode.frequency.setValueAtTime(440, ctx.currentTime);
+                    oscillatorNode.type = waveformSelect.value;
                     gainNode.connect(ctx.destination);
                     gainNode.gain.setValueAtTime(0, ctx.currentTime);
                     oscillatorNode.start();
                 }
                 return oscillators.get(pointerId);
             };
+
+            waveformSelect.addEventListener('change', (ev) => {
+                for (const [_pointerId, {oscillatorNode}] of oscillators) {
+                    oscillatorNode.type = waveformSelect.value;
+                }
+            });
 
             const destroyOscillator = (pointerId) => {
                 oscillators.delete(pointerId);
