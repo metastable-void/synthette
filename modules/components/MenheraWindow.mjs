@@ -27,6 +27,12 @@ export class MenheraWindow extends HTMLElement {
       <style>
         :host {
           display: grid;
+          --theme-background-color: #eee;
+          --theme-input-background-color: $fff;
+          --theme-shadow-color: rgba(0, 0, 0, .75);
+          --theme-overlay-color: rgba(0, 0, 0, .5);
+          --theme-accent-color: #5eaf30;
+          --theme-highlighted-text-color: #fff;
         }
 
         #wrapper {
@@ -35,6 +41,7 @@ export class MenheraWindow extends HTMLElement {
           grid-template-rows: [viewport-start content-start] auto [content-end viewport-end];
           grid-template-columns: [viewport-start drawer-start content-start] max-content [drawer-end] 1fr [content-end viewport-end];
           transition: opacity linear .5s;
+          background-color: var(--theme-background-color);
         }
 
         @media (min-width: 35rem) {
