@@ -133,6 +133,8 @@ export class MenheraWindow extends HTMLElement {
           display: grid;
           font-size: 1.5rem;
           inline-size: 2rem;
+          block-size: 2rem;
+          overflow: hidden;
           align-content: center;
           justify-content: center;
           appearance: none;
