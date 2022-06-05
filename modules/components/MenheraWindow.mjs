@@ -135,6 +135,11 @@ export class MenheraWindow extends HTMLElement {
           inline-size: 2rem;
           align-content: center;
           justify-content: center;
+          appearance: none;
+          border: none;
+          background-color: transparent;
+          margin: 0;
+          padding: 0;
         }
       </style>
       <div id='wrapper' class='drawer-collapsed'>
