@@ -163,7 +163,7 @@ export class MenheraWindow extends HTMLElement {
   openDrawer() {
     //
     const wrapper = this.shadowRoot.querySelector('#wrapper');
-    wrapper.classList.add('drawer-collapsed');
+    wrapper.classList.remove('drawer-collapsed');
   }
 
   closeDrawer() {
