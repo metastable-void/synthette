@@ -148,11 +148,11 @@ export class MenheraWindow extends HTMLElement {
 
     const wrapper = shadowRoot.querySelector('#wrapper');
     //wrapper.style.setProperty('');
-    const drawerOpenButton = shadowRoot.querySelector('#draewer-open-button');
+    const drawerOpenButton = shadowRoot.querySelector('#drawer-open-button');
     drawerOpenButton.addEventListener('click', (ev) => {
       this.openDrawer();
     });
-    const drawerCloseButton = shadowRoot.querySelector('#draewer-close-button');
+    const drawerCloseButton = shadowRoot.querySelector('#drawer-close-button');
     drawerOpenButton.addEventListener('click', (ev) => {
       this.closeDrawer();
     });
