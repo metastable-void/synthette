@@ -10,6 +10,7 @@
                 display: grid;
                 min-width: 100%;
                 min-height: 100%;
+                font-family: system-ui, sans-serif;
             }
 
             body {
@@ -20,6 +21,16 @@
             #keyboard {
                 display: grid;
                 inline-size: 100%;
+                block-size: 100%;
+            }
+
+            #heading {
+                font-size: 1.5rem;
+                font-weight: bold;
+                margin: 0;
+                display: grid;
+                padding-inline: .5rem;
+                align-content: center;
                 block-size: 100%;
             }
         </style>
@@ -42,16 +53,6 @@
 
                 svg|*#grid > svg|rect.base {
                     fill: #333;
-                }
-
-                #heading {
-                    font-size: 1.5rem;
-                    font-weight: bold;
-                    margin: 0;
-                    display: grid;
-                    padding-inline: .5rem;
-                    align-content: center;
-                    block-size: 100%;
                 }
             </style>
             <div id="main">
