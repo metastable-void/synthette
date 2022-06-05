@@ -31,7 +31,7 @@ export class MenheraWindow extends HTMLElement {
         #wrapper {
           display: grid;
           margin: 0;
-          grid-template-rows: [viewport-start header-start] max-content [header-end content-start] auto [content-end viewport-end];
+          grid-template-rows: [viewport-start content-start] auto [content-end viewport-end];
           grid-template-columns: [viewport-start drawer-start content-start] max-content [drawer-end] 1fr [content-end viewport-end];
           transition: opacity linear .5s;
         }
@@ -120,19 +120,19 @@ export class MenheraWindow extends HTMLElement {
         <div id='main'>
           <div id='header'>
             <button id='drawer-open-button'></button>
-            <div id='header-content' slot='header-content'></div>
+            <div id='header-content'><slot name='header-content'></slot></div>
           </div>
-          <div id='content' slot='content'></div>
+          <div id='content'><slot name='content'></slot></div>
         </div>
         <div id='drawer-backdrop'></div>
         <div id='drawer'>
           <div id='drawer-top'>
             <button id='drawer-close-button'>Close</button>
-            <div id='drawer-header' slot='drawer-header-content'></div>
+            <div id='drawer-header'><slot name='drawer-header-content'></slot>/div>
           </div>
-          <div id='drawer-content'></div>
+          <div id='drawer-content'><slot name='drawer-content'></slot></div>
         </div>
-        <div id='inactive-content' slot=''></div>
+        <div id='inactive-content'><slot name=''></slot></div>
       </div>
     `;
 
