@@ -67,12 +67,15 @@
             <h2 id="heading" slot="header-content">Synthette</h2>
             <synthette-keyboard slot="content" id="keyboard"></synthette-keyboard>
             <div slot="drawer-content">
-                <select id="waveform">
-                    <option value="sine">Sine</option>
-                    <option value="square">Square</option>
-                    <option value="sawtooth">Sawtooth</option>
-                    <option value="triangle">Triangle</option>
-                </select>
+                <p>
+                    Waveform:
+                    <select id="waveform">
+                        <option value="sine">Sine</option>
+                        <option value="square">Square</option>
+                        <option value="sawtooth">Sawtooth</option>
+                        <option value="triangle">Triangle</option>
+                    </select>
+                </p>
             </div>
         </menhera-window>
         <script type="module">
@@ -189,8 +192,14 @@
 
             const waveformSelect = document.querySelector('#waveform');
 
-            const ctx = new (window.AudioContext || window.webkitAudioContext);
+            let ctx = new (window.AudioContext || window.webkitAudioContext);
             const oscillators = new Map;
+
+            window.addEventListener('pageshow', ev => {
+                console.log('pageshow');
+                oscillators.clear();
+                ctx = new (window.AudioContext || window.webkitAudioContext);
+            });
 
             const getOscillator = (pointerId) => {
                 if (!oscillators.has(pointerId)) {

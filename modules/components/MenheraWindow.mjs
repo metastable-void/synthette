@@ -128,6 +128,12 @@ export class MenheraWindow extends HTMLElement {
         }
 
         #drawer-top {
+          position: -webkit-sticky;
+          position: sticky;
+          top: 0;
+          left: 0;
+          right: 0;
+          inline-size: 100%;
           display: grid;
           grid-template-columns: max-content 1fr;
           background-color: var(--theme-accent-color);
