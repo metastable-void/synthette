@@ -62,6 +62,16 @@ export class MenheraWindow extends HTMLElement {
         #main {
           grid-column: content-start / content-end;
           grid-row: content-start / content-end;
+          display: grid;
+          grid-template-rows: [header-start] max-content [header-end content-start] 1fr [content-end];
+        }
+
+        #header {
+          grid-row: header-start / header-end;
+        }
+
+        #content {
+          grid-row: content-start / content-end;
         }
 
         #drawer-backdrop {
