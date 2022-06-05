@@ -43,6 +43,16 @@
                 svg|*#grid > svg|rect.base {
                     fill: #333;
                 }
+
+                #heading {
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    margin: 0;
+                    display: grid;
+                    padding-inline: .5rem;
+                    align-content: center;
+                    block-size: 100%;
+                }
             </style>
             <div id="main">
                 <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
@@ -53,6 +63,7 @@
     </head>
     <body>
         <menhera-window>
+            <h2 id="heading" slot="header-content">Synthette</h2>
             <synthette-keyboard slot="content" id="keyboard"></synthette-keyboard>
         </menhera-window>
         <script type="module">

@@ -131,9 +131,9 @@ export class MenheraWindow extends HTMLElement {
 
         #drawer-open-button, #drawer-close-button {
           display: grid;
-          font-size: 1.5rem;
-          inline-size: 2rem;
-          block-size: 2rem;
+          font-size: 2rem;
+          inline-size: 3rem;
+          block-size: 3rem;
           overflow: hidden;
           align-content: center;
           justify-content: center;
