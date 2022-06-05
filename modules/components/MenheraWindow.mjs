@@ -29,7 +29,7 @@ export class MenheraWindow extends HTMLElement {
           display: grid;
           --theme-background-color: #eee;
           --theme-text-color: #333;
-          --theme-input-background-color: $fff;
+          --theme-input-background-color: #fff;
           --theme-shadow-color: rgba(0, 0, 0, .75);
           --theme-overlay-color: rgba(0, 0, 0, .5);
           --theme-accent-color: #5eaf30;
