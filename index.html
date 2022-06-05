@@ -49,8 +49,12 @@
         </template>
     </head>
     <body>
-        <synthette-keyboard id="keyboard"></synthette-keyboard>
+        <menhera-window>
+            <synthette-keyboard slot="content" id="keyboard"></synthette-keyboard>
+        </menhera-window>
         <script type="module">
+            import {MenheraWindow} from './mnodules/components/MenheraWindow.mjs';
+
             customElements.define('synthette-keyboard', class SynthetteKeyboard extends HTMLElement {
                 constructor() {
                     //
