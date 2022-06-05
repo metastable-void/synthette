@@ -23,6 +23,7 @@ export class MenheraWindow extends HTMLElement {
     super();
     const shadowRoot = this.attachShadow({mode: 'open'});
     shadowRoot.innerHTML = `
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
       <style>
         :host {
           display: grid;
@@ -127,11 +128,19 @@ export class MenheraWindow extends HTMLElement {
         #inactive-content {
           display: none;
         }
+
+        #drawer-open-button, #drawer-close-button {
+          display: grid;
+          font-size: 1.5rem;
+          inline-size: 2rem;
+          align-content: center;
+          justify-content: center;
+        }
       </style>
       <div id='wrapper' class='drawer-collapsed'>
         <div id='main'>
           <div id='header'>
-            <button id='drawer-open-button'></button>
+            <button id='drawer-open-button' class='material-icons'>menu</button>
             <div id='header-content'><slot name='header-content'></slot></div>
           </div>
           <div id='content'><slot name='content'></slot></div>
@@ -139,8 +148,8 @@ export class MenheraWindow extends HTMLElement {
         <div id='drawer-backdrop'></div>
         <div id='drawer'>
           <div id='drawer-top'>
-            <button id='drawer-close-button'>Close</button>
-            <div id='drawer-header'><slot name='drawer-header-content'></slot>/div>
+            <button id='drawer-close-button' class='material-icons'>arrow_back</button>
+            <div id='drawer-header'><slot name='drawer-header-content'></slot></div>
           </div>
           <div id='drawer-content'><slot name='drawer-content'></slot></div>
         </div>
