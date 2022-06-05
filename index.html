@@ -195,10 +195,22 @@
             let ctx = new (window.AudioContext || window.webkitAudioContext);
             const oscillators = new Map;
 
-            window.addEventListener('pageshow', ev => {
-                console.log('pageshow');
+            const reset = () => {
+                //
                 oscillators.clear();
                 ctx = new (window.AudioContext || window.webkitAudioContext);
+            };
+
+            window.addEventListener('pageshow', ev => {
+                console.log('pageshow');
+                reset();
+            });
+
+            document.addEventListener('visibilitychange', ev => {
+                if (!document.hidden) {
+                    console.log('Page is now visible!');
+                    reset();
+                }
             });
 
             const getOscillator = (pointerId) => {
