@@ -184,6 +184,10 @@ export class MenheraWindow extends HTMLElement {
     drawerCloseButton.addEventListener('click', (ev) => {
       this.closeDrawer();
     });
+    const drawerBackdrop = shadowRoot.querySelector('#drawer-backdrop');
+    drawerBackdrop.addEventListener('click', (ev) => {
+      this.closeDrawer();
+    });
   }
 
   openDrawer() {
