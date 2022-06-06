@@ -183,6 +183,10 @@
                     main.addEventListener('pointerleave', (ev) =>
                         pointerHandler(ev, ev.offsetX / main.clientWidth, ev.offsetY / main.clientHeight, ev.pointerId));
                     
+                    main.addEventListener('touchstart', (ev) => {
+                        ev.preventDefault();
+                    });
+
                     main.addEventListener('touchmove', (ev) => {
                         ev.preventDefault();
                         ev.stopImmediatePropagation();
