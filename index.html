@@ -269,6 +269,14 @@
                     oscillatorNode.stop();
                 }, 200);
             });
+
+            document.body.addEventListener('touchstart', (ev) => {
+                ev.preventDefault();
+            });
+
+            document.body.addEventListener('touchmove', (ev) => {
+                ev.preventDefault();
+            });
         </script>
     </body>
 </html>
