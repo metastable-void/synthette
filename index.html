@@ -270,7 +270,15 @@
                 }, 200);
             });
 
+            let touched = false;
             document.body.addEventListener('touchstart', (ev) => {
+                if (!touched) {
+                    touched = true;
+                    setTimeout(() => {
+                        touched = false;
+                    }, 500);
+                    return false;
+                }
                 ev.preventDefault();
             });
 
