@@ -80,6 +80,14 @@
                     Attack:
                     <input id="attack" type="range" min="0" max="500"/>
                 </p>
+                <p>
+                    Decay:
+                    <input id="decay" type="range" min="0" max="2000"/>
+                </p>
+                <p>
+                    Sustain:
+                    <input id="sustain" type="range" min="0" max="100"/>
+                </p>
             </div>
         </menhera-window>
         <script type="module">
@@ -252,11 +260,19 @@
 
             const keyboard = document.querySelector('#keyboard');
             const attackRange = document.querySelector('#attack');
+            const decayRange = document.querySelector('#decay');
+            const sustainRange = document.querySelector('#sustain');
             keyboard.addEventListener('activate', (ev) => {
                 ctx.resume();
                 console.log('activate: %d', ev.detail.pointerId);
                 const {gainNode, oscillatorNode} = getOscillator(ev.detail.pointerId);
-                gainNode.gain.linearRampToValueAtTime(1, ctx.currentTime + .001 * Number(attackRange.value));
+                const attack = Math.trunc(attackRange.value);
+                const decay = Math.trunc(decayRange.value);
+                const sustain = .01 * Math.trunc(sustainRange.value);
+                gainNode.gain.linearRampToValueAtTime(1, ctx.currentTime + .001 * attack);
+                setTimeout(() => {
+                    gainNode.gain.linearRampToValueAtTime(sustain, ctx.currentTime + .001 * decay);
+                }, attack);
             });
             keyboard.addEventListener('valueChange', (ev) => {
                 const {gainNode, oscillatorNode} = getOscillator(ev.detail.pointerId);
