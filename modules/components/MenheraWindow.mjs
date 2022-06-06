@@ -199,7 +199,7 @@ export class MenheraWindow extends HTMLElement {
     });
 
     wrapper.addEventListener('touchmove', (ev) => {
-        ev.preventDefault();
+      ev.preventDefault();
     });
 
     //wrapper.style.setProperty('');
