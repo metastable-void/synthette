@@ -48,6 +48,13 @@
                     background-color: #eee;
                 }
 
+                svg|*#pointers > svg|circle.pointer {
+                    stroke-width: 1px;
+                    stroke: #5eaf30;
+                    fill: #5eaf30;
+                    fill-opacity: .25;
+                }
+
                 svg|*#grid > svg|rect.row {
                     fill: #fff;
                 }
@@ -179,7 +186,7 @@
                                 pointerMark.setAttribute('cy', aValueY * main.clientHeight);
                                 pointerMark.setAttribute('r', '4');
                                 pointerMarks.appendChild(pointerMark);
-                                poitner.mark = pointerMark;
+                                pointer.mark = pointerMark;
                                 this.dispatchEvent(new CustomEvent('activate', {
                                     detail: {
                                         pointerId,
@@ -188,8 +195,8 @@
                                     },
                                 }));
                             } else if (pointer.mark) {
-                                pointerMark.setAttribute('cx', valueX * main.clientWidth);
-                                pointerMark.setAttribute('cy', aValueY * main.clientHeight);
+                                pointer.mark.setAttribute('cx', valueX * main.clientWidth);
+                                pointer.mark.setAttribute('cy', aValueY * main.clientHeight);
                             }
                             if (pointer.previousValue != aValueX) {
                                 pointer.previousValue = aValueX;
