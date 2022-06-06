@@ -49,7 +49,7 @@
                 }
 
                 svg|*#pointers > svg|circle.pointer {
-                    stroke-width: 1px;
+                    stroke-width: .125rem;
                     stroke: #5eaf30;
                     fill: #5eaf30;
                     fill-opacity: .25;
@@ -182,9 +182,9 @@
                                 pointer.active = true;
                                 const pointerMark = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                                 pointerMark.classList.add('pointer');
-                                pointerMark.setAttribute('cx', valueX * main.clientWidth);
+                                pointerMark.setAttribute('cx', aValueX * main.clientWidth);
                                 pointerMark.setAttribute('cy', aValueY * main.clientHeight);
-                                pointerMark.setAttribute('r', '4');
+                                pointerMark.setAttribute('r', '8');
                                 pointerMarks.appendChild(pointerMark);
                                 pointer.mark = pointerMark;
                                 this.dispatchEvent(new CustomEvent('activate', {
@@ -195,7 +195,7 @@
                                     },
                                 }));
                             } else if (pointer.mark) {
-                                pointer.mark.setAttribute('cx', valueX * main.clientWidth);
+                                pointer.mark.setAttribute('cx', aValueX * main.clientWidth);
                                 pointer.mark.setAttribute('cy', aValueY * main.clientHeight);
                             }
                             if (pointer.previousValue != aValueX) {
