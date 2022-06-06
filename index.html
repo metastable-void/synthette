@@ -279,6 +279,7 @@
                 ctx.resume();
                 console.log('activate: %d', ev.detail.pointerId);
                 const {gainNode, oscillatorNode} = getOscillator(ev.detail.pointerId);
+                oscillatorNode.frequency.setValueAtTime(27.5 * 2 ** (ev.detail.valueX + ev.detail.valueY), ctx.currentTime);
                 const attack = Math.trunc(attackRange.value);
                 const decay = Math.trunc(decayRange.value);
                 const sustain = .01 * Math.trunc(sustainRange.value);
