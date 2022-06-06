@@ -256,7 +256,7 @@
                 ctx.resume();
                 console.log('activate: %d', ev.detail.pointerId);
                 const {gainNode, oscillatorNode} = getOscillator(ev.detail.pointerId);
-                gainNode.gain.linearRampToValueAtTime(1, ctx.currentTime + Number(attackRange.value));
+                gainNode.gain.linearRampToValueAtTime(1, ctx.currentTime + .001 * Number(attackRange.value));
             });
             keyboard.addEventListener('valueChange', (ev) => {
                 const {gainNode, oscillatorNode} = getOscillator(ev.detail.pointerId);
