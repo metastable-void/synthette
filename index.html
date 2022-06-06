@@ -45,10 +45,11 @@
 
                 #main {
                     overflow: hidden;
+                    background-color: #eee;
                 }
 
-                svg|*#grid > svg|rect {
-                    fill: #ccc;
+                svg|*#grid > svg|rect.row {
+                    fill: #fff;
                 }
 
                 svg|*#grid > svg|rect.black {
@@ -144,10 +145,11 @@
                         grid.appendChild(line);
                     }
 
-                    for (let i = 1; i < gridRepeatY; i++) {
+                    for (let i = 1; i < gridRepeatY; i+= 2) {
                         const line = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                        line.classList.add('row');
                         line.setAttribute('width', '100%');
-                        line.setAttribute('height', '1px');
+                        line.setAttribute('height', `${100 / gridRepeatY}%`);
                         line.setAttribute('x', '0');
                         line.setAttribute('y', `${100 * i / gridRepeatY}%`);
                         grid.appendChild(line);
