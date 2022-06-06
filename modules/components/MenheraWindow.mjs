@@ -193,6 +193,15 @@ export class MenheraWindow extends HTMLElement {
     `;
 
     const wrapper = shadowRoot.querySelector('#wrapper');
+
+    wrapper.addEventListener('touchstart', (ev) => {
+      ev.preventDefault();
+    });
+
+    wrapper.addEventListener('touchmove', (ev) => {
+        ev.preventDefault();
+    });
+
     //wrapper.style.setProperty('');
     const drawerOpenButton = shadowRoot.querySelector('#drawer-open-button');
     drawerOpenButton.addEventListener('click', (ev) => {
