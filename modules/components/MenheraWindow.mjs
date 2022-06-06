@@ -204,9 +204,6 @@ export class MenheraWindow extends HTMLElement {
       }
       ev.preventDefault();
     });
-    wrapper.addEventListener('touchstart', (ev) => {
-      ev.preventDefault();
-    });
 
     wrapper.addEventListener('touchmove', (ev) => {
       ev.preventDefault();
