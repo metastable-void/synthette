@@ -88,6 +88,10 @@
                     Sustain:
                     <input id="sustain" type="range" min="0" max="100"/>
                 </p>
+                <p>
+                    Release:
+                    <input id="release" type="range" min="0" max="500"/>
+                </p>
             </div>
         </menhera-window>
         <script type="module">
@@ -262,6 +266,7 @@
             const attackRange = document.querySelector('#attack');
             const decayRange = document.querySelector('#decay');
             const sustainRange = document.querySelector('#sustain');
+            const releaseRange = document.querySelector('#release');
             keyboard.addEventListener('activate', (ev) => {
                 ctx.resume();
                 console.log('activate: %d', ev.detail.pointerId);
@@ -282,13 +287,14 @@
             keyboard.addEventListener('deactivate', (ev) => {
                 console.log('deactivate: %d', ev.detail.pointerId);
                 const {gainNode, oscillatorNode} = getOscillator(ev.detail.pointerId);
-                gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.1);
+                const release = Math.trunc(releaseRange.value);
+                gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.001 * release);
                 destroyOscillator(ev.detail.pointerId);
                 setTimeout(() => {
                     oscillatorNode.disconnect(gainNode);
                     gainNode.disconnect(ctx.destination);
                     oscillatorNode.stop();
-                }, 200);
+                }, release + 100);
             });
 
             let touched = false;
