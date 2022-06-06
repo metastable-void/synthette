@@ -76,6 +76,10 @@
                         <option value="triangle">Triangle</option>
                     </select>
                 </p>
+                <p>
+                    Attack:
+                    <input id="attack" type="range" min="0" max="500"/>
+                </p>
             </div>
         </menhera-window>
         <script type="module">
@@ -247,11 +251,12 @@
             };
 
             const keyboard = document.querySelector('#keyboard');
+            const attackRange = document.querySelector('#attack');
             keyboard.addEventListener('activate', (ev) => {
                 ctx.resume();
                 console.log('activate: %d', ev.detail.pointerId);
                 const {gainNode, oscillatorNode} = getOscillator(ev.detail.pointerId);
-                gainNode.gain.linearRampToValueAtTime(1, ctx.currentTime + 0.1);
+                gainNode.gain.linearRampToValueAtTime(1, ctx.currentTime + Number(attackRange.value));
             });
             keyboard.addEventListener('valueChange', (ev) => {
                 const {gainNode, oscillatorNode} = getOscillator(ev.detail.pointerId);
