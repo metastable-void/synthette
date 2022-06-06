@@ -48,7 +48,11 @@
                 }
 
                 svg|*#grid > svg|rect {
-                    fill: #ccc;
+                    fill: #ddd;
+                }
+
+                svg|*#grid > svg|rect.white {
+                    fill: #999;
                 }
 
                 svg|*#grid > svg|rect.base {
@@ -126,6 +130,10 @@
                         line.setAttribute('y', '0');
                         if (0 == (i % 12)) {
                             line.classList.add('base');
+                        }
+                        const white = new Set([2, 3, 5, 7, 8, 10]);
+                        if (white.has(i % 12)) {
+                            line.classList.add('white');
                         }
                         grid.appendChild(line);
                     }
