@@ -67,6 +67,7 @@
             <div id="main">
                 <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
                     <g id="grid"></g>
+                    <g id="pointers"></g>
                 </svg>
             </div>
         </template>
@@ -124,6 +125,7 @@
                     const right = shadowRoot.getElementById('right');
 
                     const grid = shadowRoot.getElementById('grid');
+                    const pointerMarks = shadowRoot.getElementById('pointers');
                     const gridRepeatX = 3;
                     const gridCountX = 12 * gridRepeatX;
                     const gridRepeatY = 8;
@@ -160,7 +162,8 @@
                         if (!pointers.has(pointerId)) {
                             pointers.set(pointerId, {
                                 active: false,
-                                previousValue: -1,
+                                previousX: -1,
+                                mark: null,
                             });
                         }
                         const pointer = pointers.get(pointerId);
@@ -170,6 +173,13 @@
                             const valueY = gridRepeatY - Math.floor(aValueY * gridRepeatY) - 1;
                             if (!pointer.active) {
                                 pointer.active = true;
+                                const pointerMark = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                                pointerMark.classList.add('pointer');
+                                pointerMark.setAttribute('cx', valueX * main.clientWidth);
+                                pointerMark.setAttribute('cy', aValueY * main.clientHeight);
+                                pointerMark.setAttribute('r', '4');
+                                pointerMarks.appendChild(pointerMark);
+                                poitner.mark = pointerMark;
                                 this.dispatchEvent(new CustomEvent('activate', {
                                     detail: {
                                         pointerId,
@@ -177,6 +187,9 @@
                                         valueY,
                                     },
                                 }));
+                            } else if (pointer.mark) {
+                                pointerMark.setAttribute('cx', valueX * main.clientWidth);
+                                pointerMark.setAttribute('cy', aValueY * main.clientHeight);
                             }
                             if (pointer.previousValue != aValueX) {
                                 pointer.previousValue = aValueX;
@@ -193,6 +206,10 @@
                             const valueY = gridRepeatY - Math.floor(aValueY * gridRepeatY) - 1;
                             pointer.active = false;
                             pointer.previousValue = -1;
+                            if (pointer.mark) {
+                                pointer.mark.remove();
+                                pointer.mark = null;
+                            }
                             this.dispatchEvent(new CustomEvent('deactivate', {
                                 detail: {
                                     pointerId,
